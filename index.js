@@ -592,6 +592,42 @@ app.get("/logout", (req, res) => {
 });
 
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  }
+});
+
+app.post("/send-otp", async (req, res) => {
+  const email = req.body.email;
+  console.log("Email received for OTP:", email);
+
+  const otp = Math.floor(100000 + Math.random() * 900000); // Generate OTP
+
+  // Save OTP to session
+  req.session.email = email;
+  req.session.otp = otp;
+  console.log("Generated OTP:", otp);
+
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Your OTP Code",
+      text: `Your OTP is ${otp}`,
+    });
+
+    console.log(`✅ OTP ${otp} sent to ${email}`);
+    res.json({ message: "OTP has been sent successfully!" });
+  } catch (error) {
+    console.error("❌ Failed to send OTP:", error);
+    res.status(500).json({ message: "Failed to send OTP" });
+  }
+});
+
+
 // Start Server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
