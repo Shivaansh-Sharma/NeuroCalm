@@ -35,18 +35,24 @@ app.use(express.static("public")); // Serve static files
 app.use(express.json()); // Handle JSON data
 app.use(bodyParser.urlencoded({ extended: true })); // Handle form data
 
+// Only trust proxy on production (Render)
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 app.use(session({
   store: new pgStore({ pool: db }),
   secret: process.env.SESSION_SECRET || "your-secret-key",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,         // Force secure cookie (needed for HTTPS on Render)
+    secure: process.env.NODE_ENV === "production", // ❗true for Render, false for localhost
     httpOnly: true,
-    sameSite: 'None',     // Allow cross-site cookies (important for frontend/backend on different domains)
-    maxAge: 86400000      // 1 day
+    sameSite: process.env.NODE_ENV === "production" ? 'None' : 'Lax',
+    maxAge: 86400000
   }
 }));
+
 
 
 // Set EJS as the templating engine
