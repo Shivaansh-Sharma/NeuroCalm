@@ -283,45 +283,42 @@ app.post("/login", async (req, res) => {
 
 // Route for page 1 (Depression)
 app.post('/submit-page1', async (req, res) => {
-    const answers  = req.body;
-    console.log(answers)
+    const answers = req.body;
+    console.log(answers);
+
     // Check if user is logged in
     if (!req.session.user) {
-        return res.redirect("/login"); // Redirect to login if user is not logged in
+        return res.redirect("/login");
     }
-    const userId = req.session.user.id
-if (!answers || Object.keys(answers).length === 0) {
-    return res.status(400).send('No answers provided');
-}
 
+    const userId = req.session.user.id;
 
-    // Calculate the score for page 1 (depression)
-    let depScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+    if (!answers || Object.keys(answers).length === 0) {
+        return res.status(400).send('No answers provided');
+    }
+
+    // Calculate depression score
+    let depScore = Object.values(answers).map(Number).reduce((acc, val) => acc + val, 0);
+    let depInterpretation = getDepressionInterpretation(depScore);
 
     try {
-        // Check if the user already has an entry in the results table
-        let result = await db.query(
-            'SELECT * FROM results WHERE user_id = $1',
-            [userId]
+        // Insert a new result row and capture the new result ID
+        const insertResult = await db.query(
+            'INSERT INTO results (user_id, dep_score, anx_score, str_score, testtype, dep_interpretation) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+            [userId, depScore, -1, -1, 'Dass-21', depInterpretation]
         );
 
-        let depInterpretation = getDepressionInterpretation(depScore);
-            // Insert a new entry for the user with the depression score for page 1
-            await db.query(
-                'INSERT INTO results (user_id, dep_score, anx_score, str_score, testtype,dep_interpretation ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-                [userId, depScore,-1,-1, 'Dass-21',depInterpretation ]
-                
-            );
-            const newUserId = result.rows[0].id;
-        
+        // ✅ Save the inserted result ID into session for use in page 2 & 3
+        req.session.newUserId = insertResult.rows[0].id;
 
-        // Redirect to page 2 (Anxiety)
+        // Redirect to anxiety page
         res.redirect(`/dass21-anx.html`);
     } catch (error) {
         console.error('Error saving page 1 results:', error);
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 // Route for page 2 (Anxiety)
 app.post('/submit-page2', async (req, res) => {
@@ -404,41 +401,45 @@ app.post('/submit-page3', async (req, res) => {
     }
 });
 // Route for page 1 (Depression-long)
+// Route for page 1 (Depression - DASS-42)
 app.post('/submit-page11', async (req, res) => {
-    const answers  = req.body;
-    console.log(answers)
+    const answers = req.body;  // Get answers from form submission
+    console.log("Page 11 answers:", answers);
+
     // Check if user is logged in
     if (!req.session.user) {
-        return res.redirect("/login"); // Redirect to login if user is not logged in
+        return res.redirect("/login");
     }
-    const userId = req.session.user.id
-    if (!answers) {
+
+    const userId = req.session.user.id;
+
+    // Validate answers
+    if (!answers || Object.keys(answers).length === 0) {
         return res.status(400).send('No answers provided');
     }
 
-    // Calculate the score for page 1 (depression)
-    let depScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+    // Calculate total depression score from form answers
+    let depScore = Object.values(answers).map(Number).reduce((acc, val) => acc + val, 0);
+
+    // Get interpretation based on score
+    let depInterpretation = getDepressionInterpretation(depScore);
 
     try {
-        // Check if the user already has an entry in the results table
-        let result = await db.query(
-            'SELECT * FROM results WHERE user_id = $1',
-            [userId]
+        // ✅ Insert new row into 'results' table and get the new ID using RETURNING
+        const insertResult = await db.query(
+            `INSERT INTO results (user_id, dep_score, anx_score, str_score, testtype, dep_interpretation) 
+             VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
+            [userId, depScore, -1, -1, 'Dass-42', depInterpretation]
         );
 
-        let depInterpretation = getDepressionInterpretation(depScore);
-            // Insert a new entry for the user with the depression score for page 1
-            await db.query(
-                'INSERT INTO results (user_id, dep_score, anx_score, str_score, testtype,dep_interpretation ) VALUES ($1, $2, $3, $4, $5, $6)',
-                [userId, depScore,-1,-1, 'Dass-42',depInterpretation]
-            );
-            const newUserId = result.rows[0].id;
-            req.session.newUserId = newUserId;
+        // ✅ Save newly inserted result ID in session to update it later in page22 and page33
+        const newUserId = insertResult.rows[0].id;
+        req.session.newUserId = newUserId;
 
-        // Redirect to page 2 (Anxiety-long)
+        // Redirect to page 2 (Anxiety section)
         res.redirect(`/dass42-anx.html`);
     } catch (error) {
-        console.error('Error saving page 1 results:', error);
+        console.error('❌ Error saving page 1 (Depression) results:', error);
         res.status(500).send('Internal Server Error');
     }
 });
