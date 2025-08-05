@@ -161,6 +161,9 @@ app.post("/signup", async (req, res) => {
     const signupConfirmPassword = req.body["key7"];
     const enteredOtp = req.body["key8"];
 
+    console.log("Session OTP:", req.session.otp, "Entered OTP:", enteredOtp);
+
+  
     // ✅ 1. OTP verification
     const generated_otp = req.session.otp;
     if (!generated_otp || generated_otp.toString() !== enteredOtp) {
@@ -191,6 +194,7 @@ app.post("/signup", async (req, res) => {
             `;
             const values = [firstname, lastname, email, dob, region, hashedPassword];
 
+          console.log("Inserting into DB:", values);
             await db.query(insertQuery, values);
 
             // Optional: fetch the user back
