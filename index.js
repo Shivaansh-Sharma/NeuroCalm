@@ -6,9 +6,10 @@ import { fileURLToPath } from "url";
 import session from "express-session";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
-import pgSession from "connect-pg-simple";
+import connectPgSimple from "connect-pg-simple";
 
-const pgStore = pgSession(session);
+
+const pgStore = connectPgSimple(session);
 
 // for __dirname in ES Module
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -122,7 +123,8 @@ app.get("/details", async (req, res) => {
 });
 // Update user details
 app.post('/user/update', async (req, res) => {
-    const { id } = req.params;
+    const id = req.session.user.id;
+
     const { firstName, lastName, email, dob, region } = req.body;
 
     try {
@@ -468,7 +470,7 @@ app.post('/submit-page22', async (req, res) => {
             const newUserId = req.session.newUserId;
             await db.query(
                 'UPDATE results SET anx_score = $1, anx_interpretation = $2 WHERE id = $3',
-                [anxScore,anxInterpretation, newUserIdid]
+                [anxScore,anxInterpretation, newUserId]
             );
         } 
 
@@ -509,7 +511,7 @@ app.post('/submit-page33', async (req, res) => {
             const newUserId = req.session.newUserId;
             await db.query(
                 'UPDATE results SET str_score = $1, str_interpretation = $2 WHERE id = $3',
-                [strScore,strInterpretation, newUserIdid]
+                [strScore,strInterpretation, newUserId]
             );
         } 
 
