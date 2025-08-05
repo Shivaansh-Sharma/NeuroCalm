@@ -151,14 +151,17 @@ app.post("/signup", async (req, res) => {
     console.log("Received signup request!");
     console.log("Request body:", req.body);
 
-    let firstname = req.body["key1"];
-    let lastname = req.body["key2"];
-    let email = req.body["key3"];
-    let dob = req.body["key4"];
-    let region = req.body["key5"];
-    let signupPassword = req.body["key6"];
-    let signupConfirmPassword = req.body["key7"];
-    let enteredOtp = req.body["key8"];
+let {
+  key1: firstname,
+  key2: lastname,
+  key3: email,
+  key4: dob,
+  key5: region,
+  key6: signupPassword,
+  key7: signupConfirmPassword,
+  key8: enteredOtp
+} = req.body;
+
     
     //verifying otp
 let generated_otp = req.session.otp;
