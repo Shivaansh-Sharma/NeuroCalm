@@ -148,102 +148,62 @@ app.post('/user/update', async (req, res) => {
 
 // Handle Signup Form Submission
 app.post("/signup", async (req, res) => {
-    console.log("Received signup request!");
+    console.log("✅ Received signup request!");
     console.log("Request body:", req.body);
 
-let {
-  key1: firstname,
-  key2: lastname,
-  key3: email,
-  key4: dob,
-  key5: region,
-  key6: signupPassword,
-  key7: signupConfirmPassword,
-  key8: enteredOtp
-} = req.body;
+    // Extract values from JSON body (keys from frontend)
+    const firstname = req.body["key1"];
+    const lastname = req.body["key2"];
+    const email = req.body["key3"];
+    const dob = req.body["key4"];
+    const region = req.body["key5"];
+    const signupPassword = req.body["key6"];
+    const signupConfirmPassword = req.body["key7"];
+    const enteredOtp = req.body["key8"];
 
-    
-    //verifying otp
-let generated_otp = req.session.otp;
-if (!generated_otp || generated_otp.toString() !== enteredOtp) {
-    return res.status(400).send("Incorrect OTP");
-}
+    // ✅ 1. OTP verification
+    const generated_otp = req.session.otp;
+    if (!generated_otp || generated_otp.toString() !== enteredOtp) {
+        return res.status(400).send("Incorrect OTP");
+    }
 
-
-    if (!firstname || !lastname || !email || !signupPassword) {
+    // ✅ 2. Validate required fields
+    if (!firstname || !lastname || !email || !signupPassword || !signupConfirmPassword) {
         return res.status(400).send("Missing required fields!");
     }
 
-    if(signupPassword !== signupConfirmPassword){
+    // ✅ 3. Check if passwords match
+    if (signupPassword !== signupConfirmPassword) {
         return res.status(400).send("Passwords do not match");
     }
-    
-    console.log({firstname, lastname, email, dob, region, signupPassword, signupConfirmPassword})
 
-    // Encrypting password before storing
-    bcrypt.hash(signupPassword, saltRounds, async (err, hash_pass)=>{
-        if(err){
-            console.log("error hashing the password: ", err);
-        }else{
-            try {
-        const query = `
-            INSERT INTO users (firstname, lastname, email, dob, region, password)
-            VALUES ($1, $2, $3, $4, $5, $6)`;
-        const values = [firstname, lastname, email, dob, region, hash_pass];
+    // ✅ 4. Encrypt password and insert into database
+    bcrypt.hash(signupPassword, saltRounds, async (err, hashedPassword) => {
+        if (err) {
+            console.error("❌ Error hashing password:", err);
+            return res.status(500).send("Password hashing failed");
+        }
 
-        await db.query(query, values);
-        const result  = await db.query('SELECT * FROM users WHERE email=$1', [req.session.email]);
-        console.log("User inserted:", result.rows[0]);
+        try {
+            const insertQuery = `
+                INSERT INTO users (firstname, lastname, email, dob, region, password)
+                VALUES ($1, $2, $3, $4, $5, $6)
+            `;
+            const values = [firstname, lastname, email, dob, region, hashedPassword];
 
-        res.json({message: "Signup successful!"});
+            await db.query(insertQuery, values);
+
+            // Optional: fetch the user back
+            const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+            console.log("✅ User inserted:", result.rows[0]);
+
+            res.json({ message: "Signup successful!" });
         } catch (error) {
-            console.error("Database Insert Error", error);
+            console.error("❌ Database insert error:", error);
             res.status(500).send("Error signing up.");
         }
-        }
-    })
-
-    // Insert user into database
-    
+    });
 });
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  }
-});
-
-app.post("/send-otp", async(req, res)=>{
-  const email = req.body.email;
-  console.log(email);
-  const otp = Math.floor(100000 + Math.random() * 900000); // generate OTP
-
-  // Save OTP to session
-  req.session.email = email;
-  req.session.otp = otp;
-  console.log("working before sending mail");
-
-
-  // Send the OTP to the email
-  try {await transporter.sendMail({
-    from: 'neurocalm1@gmail.com',
-    to: email,
-    subject: 'Your OTP Code',
-    text: `Your OTP is ${otp}`
-  });
-
-  console.log(`Sent OTP ${otp} to ${email}`);
-
-  res.json({message: 'OTP has been sent successfully!'});
-  }
-  catch(error){
-    console.error('Failed to send OTP', error);
-    res.status(500).json({ message: 'Failed to send OTP' });
-
-  }
-})
 
 // Handle Login Form Submission
 app.post("/login", async (req, res) => {
