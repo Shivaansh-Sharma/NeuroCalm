@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DASS-21 Anxiety Evaluation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1 class="site-title">NeuroCalm</h1>
+        <!-- From Uiverse.io by RiccardoRapelli --> 
+        <label class="switch">
+          <input id="input" type="checkbox"  />
+          <div class="slider round">
+            <div class="sun-moon">
+              <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+        
+              <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+              <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="50"></circle>
+              </svg>
+            </div>
+            <div class="stars">
+              <svg id="star-1" class="star" viewBox="0 0 20 20">
+                <path
+                  d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                ></path>
+              </svg>
+              <svg id="star-2" class="star" viewBox="0 0 20 20">
+                <path
+                  d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                ></path>
+              </svg>
+              <svg id="star-3" class="star" viewBox="0 0 20 20">
+                <path
+                  d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                ></path>
+              </svg>
+              <svg id="star-4" class="star" viewBox="0 0 20 20">
+                <path
+                  d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </label>
+  
+    </header>
+
+    <main class="centered" style="padding-bottom: 100px;"> <!-- Added bottom padding -->
+        <div class="container">
+            <h2>Anxiety Evaluation</h2>
+            <p>Please read each statement and select a option a, b, c or d which indicates how much the statement applies to you over the past week. There are no right or wrong answers. Do not spend too much time on any statement.</p>
+            <form id="dass21-anx-form" action="/submit-page2" method="post">
+              
+                <p><b>1. I am aware of dryness of my mouth.</b></p>
+                <label><input type="radio" name="q1" value="0" required><em>(a) Does not apply to me at all</em></label>
+                <label><input type="radio" name="q1" value="1"><em>(b) Applies to me to some degree, or some of the time</em></label>
+                <label><input type="radio" name="q1" value="2"><em>(c) Applies to me to a considerable degree or a good part of time</em></label>
+                <label><input type="radio" name="q1" value="3"><em>(d) Applies to me very much or most of the time</em></label>
+                <br>
+                <p><b>2. I experience breathing difficulty (e.g. excessively rapid breathing, breathlessness in the absence of physical exertion).</b></p>
+                <label><input type="radio" name="q2" value="0" required><em>(a) Does not apply to me at all</em></label>
+                <label><input type="radio" name="q2" value="1"><em>(b) Applies to me to some degree, or some of the time</em></label>
+                <label><input type="radio" name="q2" value="2"><em>(c) Applies to me to a considerable degree or a good part of time</em></label>
+                <label><input type="radio" name="q2" value="3"><em>(d) Applies to me very much or most of the time</em></label>
+                <br>
+                <p><b>3. I am worried about situations in which I might panic and make a fool of myself.</b></p>
+                <label><input type="radio" name="q3" value="0" required><em>(a) Does not apply to me at all</em></label>
+                <label><input type="radio" name="q3" value="1"><em>(b) Applies to me to some degree, or some of the time</em></label>
+                <label><input type="radio" name="q3" value="2"><em>(c) Applies to me to a considerable degree or a good part of time</em></label>
+                <label><input type="radio" name="q3" value="3"><em>(d) Applies to me very much or most of the time</em></label>
+                <br>
+                <p><b>4. I feel I am close to panic.</b></p>
+                <label><input type="radio" name="q4" value="0" required><em>(a) Does not apply to me at all</em></label>
+                <label><input type="radio" name="q4" value="1"><em>(b) Applies to me to some degree, or some of the time</em></label>
+                <label><input type="radio" name="q4" value="2"><em>(c) Applies to me to a considerable degree or a good part of time</em></label>
+                <label><input type="radio" name="q4" value="3"><em>(d) Applies to me very much or most of the time</em></label>
+                <br>
+                <p><b>5. I am aware of the action of my heart in the absence of physical exertion (e.g. sense of heart rate increase, heart missing a beat).</b></p>
+                <label><input type="radio" name="q5" value="0" required><em>(a) Does not apply to me at all</em></label>
+                <label><input type="radio" name="q5" value="1"><em>(b) Applies to me to some degree, or some of the time</em></label>
+                <label><input type="radio" name="q5" value="2"><em>(c) Applies to me to a considerable degree or a good part of time</em></label>
+                <label><input type="radio" name="q5" value="3"><em>(d) Applies to me very much or most of the time</em></label>
+                <br>
+                <p><b>6. I feel scared without any good reason .</b></p>
+                <label><input type="radio" name="q6" value="0" required><em>(a) Does not apply to me at all</em></label>
+                <label><input type="radio" name="q6" value="1"><em>(b) Applies to me to some degree, or some of the time</em></label>
+                <label><input type="radio" name="q6" value="2"><em>(c) Applies to me to a considerable degree or a good part of time</em></label>
+                <label><input type="radio" name="q6" value="3"><em>(d) Applies to me very much or most of the time</em></label>
+                <br>
+                <p><b>7. I have experienced trembling (e.g. in the hands) .</b></p>
+                <label><input type="radio" name="q7" value="0" required><em>(a) Does not apply to me at all</em></label>
+                <label><input type="radio" name="q7" value="1"><em>(b) Applies to me to some degree, or some of the time</em></label>
+                <label><input type="radio" name="q7" value="2"><em>(c) Applies to me to a considerable degree or a good part of time</em></label>
+                <label><input type="radio" name="q7" value="3"><em>(d) Applies to me very much or most of the time</em></label>
+                <br>
+
+                <button type="sumbit" class="form-button" id="next-btn">Next</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 NeuroCalm. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Toggle dark mode
+        const modeToggle = document.getElementById("input");
+        modeToggle.addEventListener("change", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+
+        // 
+    </script>
+</body>
+</html>

@@ -1,0 +1,1181 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Default Light Mode */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #F8F9FB;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1.6;
+    overflow-y: auto;
+    padding-top: 80px;
+}
+
+/* Centered form containers */
+.centered, main.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    overflow: auto;
+    margin-top: 40px;
+}
+
+main.centered section {
+    padding: 20px;
+}
+
+/* Header Styles */
+header {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    color: #354D9C;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 15px 15px;
+}
+
+header .site-title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -1px;
+    flex: 1;
+    text-align: center;
+}
+
+/* From Uiverse.io by RiccardoRapelli */ 
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch #input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #2196f3;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .sun-moon {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: yellow;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+  
+  #input:checked + .slider {
+    background-color: black;
+  }
+  
+  #input:focus + .slider {
+    box-shadow: 0 0 1px #2196f3;
+  }
+  
+  #input:checked + .slider .sun-moon {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    background-color: white;
+    -webkit-animation: rotate-center 0.6s ease-in-out both;
+    animation: rotate-center 0.6s ease-in-out both;
+  }
+  
+  .moon-dot {
+    opacity: 0;
+    transition: 0.4s;
+    fill: gray;
+  }
+  
+  #input:checked + .slider .sun-moon .moon-dot {
+    opacity: 1;
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round .sun-moon {
+    border-radius: 50%;
+  }
+  
+  #moon-dot-1 {
+    left: 10px;
+    top: 3px;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    z-index: 4;
+  }
+  
+  #moon-dot-2 {
+    left: 2px;
+    top: 10px;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    z-index: 4;
+  }
+  
+  #moon-dot-3 {
+    left: 16px;
+    top: 18px;
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    z-index: 4;
+  }
+  
+  #light-ray-1 {
+    left: -8px;
+    top: -8px;
+    position: absolute;
+    width: 43px;
+    height: 43px;
+    z-index: -1;
+    fill: white;
+    opacity: 10%;
+  }
+  
+  #light-ray-2 {
+    left: -50%;
+    top: -50%;
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    z-index: -1;
+    fill: white;
+    opacity: 10%;
+  }
+  
+  #light-ray-3 {
+    left: -18px;
+    top: -18px;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    z-index: -1;
+    fill: white;
+    opacity: 10%;
+  }
+  
+  .cloud-light {
+    position: absolute;
+    fill: #eee;
+    animation-name: cloud-move;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+  }
+  
+  .cloud-dark {
+    position: absolute;
+    fill: #ccc;
+    animation-name: cloud-move;
+    animation-duration: 6s;
+    animation-iteration-count: infinite;
+    animation-delay: 1s;
+  }
+  
+  #cloud-1 {
+    left: 30px;
+    top: 15px;
+    width: 40px;
+  }
+  
+  #cloud-2 {
+    left: 44px;
+    top: 10px;
+    width: 20px;
+  }
+  
+  #cloud-3 {
+    left: 18px;
+    top: 24px;
+    width: 30px;
+  }
+  
+  #cloud-4 {
+    left: 36px;
+    top: 18px;
+    width: 40px;
+  }
+  
+  #cloud-5 {
+    left: 48px;
+    top: 14px;
+    width: 20px;
+  }
+  
+  #cloud-6 {
+    left: 22px;
+    top: 26px;
+    width: 30px;
+  }
+  
+  @keyframes cloud-move {
+    0% {
+      transform: translateX(0px);
+    }
+  
+    40% {
+      transform: translateX(4px);
+    }
+  
+    80% {
+      transform: translateX(-4px);
+    }
+  
+    100% {
+      transform: translateX(0px);
+    }
+  }
+  
+  .stars {
+    transform: translateY(-32px);
+    opacity: 0;
+    transition: 0.4s;
+  }
+  
+  .star {
+    fill: white;
+    position: absolute;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+    animation-name: star-twinkle;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+  
+  #input:checked + .slider .stars {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  #star-1 {
+    width: 20px;
+    top: 2px;
+    left: 3px;
+    animation-delay: 0.3s;
+  }
+  
+  #star-2 {
+    width: 6px;
+    top: 16px;
+    left: 3px;
+  }
+  
+  #star-3 {
+    width: 12px;
+    top: 20px;
+    left: 10px;
+    animation-delay: 0.6s;
+  }
+  
+  #star-4 {
+    width: 18px;
+    top: 0px;
+    left: 18px;
+    animation-delay: 1.3s;
+  }
+  
+  @keyframes star-twinkle {
+    0% {
+      transform: scale(1);
+    }
+  
+    40% {
+      transform: scale(1.2);
+    }
+  
+    80% {
+      transform: scale(0.8);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }  
+/* Till here is light/dark mode */
+
+/* Button Styles */
+
+.auth-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+
+.login-btn, .form-button, .signup-btn, .button-container{
+    text-decoration: none;
+    background-color: #354D9C;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.3s;
+    border: 2px solid transparent;
+    display: block;
+    width: auto;
+    margin: 0 auto;
+}
+
+.button-wrapper {
+  display: flex;
+  gap: 10px; /* optional: spacing between buttons */
+}
+
+.button-container {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.form-button #send-otp-btn {
+    align-items: center;
+}
+
+
+.login-btn:hover, .form-button:hover, .signup-btn:hover, .button-container:hover {
+    background-color: hsl(226, 41%, 60%);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Dark Mode */
+.dark-mode, .dark-mode .container, .dark-mode .result-container, .dark-mode .details-container {
+    background-color: #161C22;
+    color: #D4E7D8;
+}
+
+.dark-mode header, .dark-mode .login-btn, .dark-mode .form-button, .dark-mode footer, .dark-mode .signup-btn, .dark-mode .button-container {
+    background: rgba(42, 53, 61, 0.95);
+    color: #D4E7D8;
+}
+
+.dark-mode .login-btn:hover, .dark-mode .form-button:hover, .dark-mode .signup-btn:hover, .dark-mode .button-container:hover {
+    background-color: orange;
+    color: black;
+}
+
+.dark-mode .login-btn, .dark-mode .form-button , .dark-mode .signup-btn, .dark-mode .button-container {
+    background-color: #8CC2A5;
+    color: #161C22;
+}
+
+.dark-mode .form-input {
+    border-color: #444;
+    background-color: #222;
+    color: #ddd;
+}
+
+.dark-mode .form-input:focus {
+    border-color: #8CC2A5;
+    box-shadow: 0 0 8px rgba(140, 194, 165, 0.3);
+}
+
+.dark-mode .container a, .dark-mode .result-table, .dark-mode .popup {
+    color: inherit;
+}
+
+.dark-mode .result-table {
+    background: rgba(42, 53, 61, 0.9);
+}
+
+.dark-mode .result-table th {
+    background: #2A3D7A;
+}
+
+.dark-mode .popup {
+    background: rgba(42, 53, 61, 0.2);
+    border: 1px solid rgba(140, 194, 165, 0.3);
+}
+
+.dark-mode .popup ul li {
+    color: #D4E7D8;
+}
+
+.dark-mode .popup ul li:hover {
+    background: rgba(140, 194, 165, 0.3);
+}
+
+/* Form Container */
+.container, .result-container, .details-container, .evaluation-container, .exercises-container {
+    background: #F8F9FB;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    align-items: center;
+    width:1500px;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin: 80px auto 0;
+    max-width: 1500px;
+    
+}
+
+.dark-mode .container {
+    background: rgba(22, 28, 34, 0.3);
+    color: #D4E7D8;
+}
+
+.container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container a {
+    color: inherit;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.container a:hover {
+    text-decoration: underline;
+}
+
+/* Utility Classes */
+.hidden { display: none; }
+.visible { display: block; }
+
+/* Profile Picture Styling */
+.profile-pic img {
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Form Fields */
+.form-input {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #555;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus {
+    border-color: #354D9C;
+    outline: none;
+    box-shadow: 0 0 8px rgba(53, 77, 156, 0.3);
+}
+
+/* Alert Message */
+.alert {
+    margin-top: 20px;
+    color: #ff4d4d;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Welcome Message */
+.welcome-message p {
+    font-size: 18px;
+    color: #555;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.welcome-message h2 {
+    text-align: center;
+}
+
+.dark-mode .welcome-message p {
+    color: #D4E7D8;
+}
+
+/* Footer Styles */
+footer {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    color: #354D9C;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+}
+
+/* Ensure footer is not overlapping content */
+main {
+    padding-bottom: 50px;
+}
+
+/* DASS-21 Depression Evaluation Form */
+.container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #354D9C;
+}
+
+.dark-mode .container h2 {
+    color: #8CC2A5;
+}
+
+.container form p {
+    margin: 20px 0 10px;
+    font-size: 18px;
+    color: #555;
+}
+
+.dark-mode .container form p {
+    color: #D4E7D8;
+}
+
+.container form label {
+    display: block;
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.dark-mode .container form label {
+    color: #D4E7D8;
+}
+
+.container form input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Popups with Glass Effect */
+.popup {
+    position:fixed;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    
+}
+
+.popup.show {
+    display: block;
+}
+
+.popup ul li {
+    padding: 10px 15px;
+    cursor: pointer;
+    color: #222;
+}
+
+.popup ul li:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Results Table Styling */
+.result-table {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.result-table th, .result-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.result-table th {
+    background: #354D9C;
+    color: white;
+    font-weight: 600;
+}
+
+/* User Details Container */
+.details-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: left;
+}
+
+.details-container label {
+    font-weight: 600;
+}
+
+.details-container input, .details-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.details-container textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Disabled Input Fields */
+.details-container input:disabled, .details-container textarea:disabled {
+    background: #f0f0f0;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* OTP Button */
+.otp-button {
+    width: 100%;
+    padding: 10px;
+    background: #aaa;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: not-allowed;
+    align-items: center;
+}
+
+.otp-button:enabled {
+    background: #354D9C;
+    cursor: pointer;
+}
+
+.otp-button:enabled:hover {
+    background: #2A3D7A;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Form Buttons */
+.form-button {
+    width: 45%;
+}
+
+/* Dark Mode for User Info Container */
+.dark-mode .details-container {
+    background: rgba(42, 53, 61, 0.9);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .details-container input, .dark-mode .details-container textarea {
+    background: #2A3D3D;
+    border: 2px solid #555;
+    color: #D4E7D8;
+}
+
+.dark-mode .details-container label {
+    color: #D4E7D8;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .result-table th, .result-table td {
+        padding: 8px;
+    }
+}
+
+/* Toggle Link */
+.toggle-link {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #354D9C;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.toggle-link:hover {
+    text-decoration: underline;
+    color: #2A3D7A;
+}
+
+.dark-mode .toggle-link {
+    color: #8CC2A5;
+}
+
+.dark-mode .toggle-link:hover {
+    color: #6DA88A;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: lightgray;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2A3D7A;
+    border-radius: 15px;
+    transition: background 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #354D9C; 
+    transition: background 0.3s ease-in-out;
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: #2A3D3D ; 
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: #6DA88A ;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: #8CC2A5 ;
+}
+
+#exerciseButton {
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+body:not(.dark-mode) #exerciseButton:hover {
+  background-color:hsl(226, 41%, 60%) ;
+  color: white ;
+  transform: translateY(-2px);
+}
+
+body.dark-mode #exerciseButton {
+  background-color: #8CC2A5;
+  color: #161C22
+}
+
+body:not(.dark-mode) #exerciseButton {
+  background-color: #354D9C;
+  color: white;
+}
+
+body.dark-mode #exerciseButton:hover {
+  background-color: orange ; 
+  transform: translateY(-2px);
+}
+
+/* Filter container */
+#filter {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  justify-content: center;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Individual checkbox label */
+#filter label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* On hover */
+#filter label:hover {
+  background-color: #e6f0ff;
+  border-color: #007bff;
+}
+
+/* Checkbox styling */
+#filter input[type="checkbox"] {
+  accent-color: #007bff;
+  width: 16px;
+  height: 16px;
+}
+
+body.dark-mode #filter {
+  background-color: #222;
+}
+
+body.dark-mode #filter label {
+  background: #333;
+  color: #eee;
+  border-color: #555;
+}
+
+body.dark-mode #filter label:hover {
+  background-color: #444;
+  border-color: #66b2ff;
+}
+
+/* From Uiverse.io by adamgiebl */ 
+.filter-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #354D9C;
+  border-radius: 5px;
+  background-color: transparent;
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.filter-checkbox:before {
+  content: "";
+  background-color: #354D9C;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.filter-checkbox:checked:before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.filter-checkbox-label {
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Checkbox Dark Mode */
+
+.dark-mode .filter-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #6DA88A;
+  border-radius: 5px;
+  background-color: transparent;
+  display: inline-block;
+  position: relative;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.dark-mode .filter-checkbox:before {
+  content: "";
+  background-color: #6DA88A;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  transition: all 0.3s ease-in-out;
+}
+
+.dark-mode .filter-checkbox:checked:before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.dark-mode .filter-checkbox-label {
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+}
+
+/* Default styling for the exercise div */
+.exercise-div {
+  background-color: #fff; /* White background color for light mode */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px;
+  margin: 15px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for a soft elevated effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effects */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.exercise-div:hover {
+  transform: translateY(-5px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.exercise-content{
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin-left: 250px;
+}
+
+.video-player{
+  max-width: 650px;
+  margin-right: 250px;
+}
+
+.exercise-content ul {
+  margin-top: 0;
+}
+.exercise-div .exercise-content {
+  text-align: center;
+}
+
+.exercise-div img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px; /* Slight rounding of images */
+  margin-bottom: 10px;
+  border: 2px solid black; /* Black border for light mode */
+}
+
+.exercise-div p {
+  font-size: 16px;
+  color: #333; /* Dark text for better readability */
+}
+
+.exercise-div a {
+  color: black; /* Blue link color */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.exercise-div a:hover {
+  text-decoration: underline; /* Underline on hover */
+  color: #727272;
+}
+
+.exercise-title {
+    text-align: center; /* Center-aligns the text */
+    font-weight: bold;  /* Makes the text bold */
+    font-size: 1.5em;   /* Optional: Adjust the font size as needed */
+    color: #354D9C ;
+    margin-bottom: 10px;
+}
+
+/* Dark mode styling */
+body.dark-mode .exercise-div {
+  background-color: #2d2d2d; /* Dark background color for dark mode */
+  color: #f4f4f4; /* Light text color for better contrast */
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1); /* Light shadow for dark mode */
+}
+
+body.dark-mode .exercise-div p {
+  color: #f4f4f4; /* Light text for better readability */
+}
+
+body.dark-mode .exercise-div a {
+  color: white; /* Lighter blue link color for dark mode */
+}
+
+body.dark-mode .exercise-div a:hover {
+  color: #faf9f6cc; /* Lighter hover effect for the links */
+}
+
+body.dark-mode .exercise-div:hover {
+  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.15); /* Enhanced shadow for hover in dark mode */
+}
+
+/* Dark mode styling for images */
+body.dark-mode .exercise-div img {
+  border: 2px solid #6DA88A; /* Off-white border for dark mode */
+}
+
+.dark-mode .exercise-title {
+  text-align: center; /* Center-aligns the text */
+  font-weight: bold;  /* Makes the text bold */
+  font-size: 1.5em;   /* Optional: Adjust the font size as needed */
+  color: #6DA88A ;
+}
+
+.exercise-content ul {
+  list-style-type:disc;
+  list-style-position: inside;
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.exercise-content li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+/* Table Border */
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse; /* Optional but recommended */
+}
+
+
+
+.dark-mode table,.dark-mode th, .dark-mode td {
+  border: 1px solid white;
+  border-collapse: collapse; /* Optional but recommended */
+}
+
+
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  header {
+    flex-direction: row;
+    padding: 10px 20px;
+  }
+
+  header .site-title {
+    font-size: 24px;
+  }
+
+  .auth-buttons {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  main.centered section {
+    padding: 30px 20px;
+  }
+
+  .login-btn, .form-button, .signup-btn, .button-container {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .button-wrapper {
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .switch {
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 480px) {
+  header .site-title {
+    font-size: 20px;
+  }
+
+  .login-btn, .form-button, .signup-btn, .button-container {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
+
+
+.wrapper {
+  border-top: 1px dashed rgba(0, 0, 0, 0.2);
+  padding: 16px 20px;
+  margin-top: 8px;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  width:1600px;
+  padding-bottom: 20px;
+}
+
+.dark-mode .wrapper{
+  background-color: rgba(22, 28, 34, 0.3);
+}
+
+
+#login{
+  max-width: 600px;
+}
+
+#eval{
+  margin-top: 30px;
+  padding: 30px;
+}
+#ex{
+  margin-bottom: 30px;
+  padding:30px;
+}
+
+#signup{
+  margin-top: 10px;
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - NeuroCalm</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <label class="switch">
+            <input id="input" type="checkbox"  />
+            <div class="slider round">
+              <div class="sun-moon">
+                <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+          
+                <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+              </div>
+              <div class="stars">
+                <svg id="star-1" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+                <svg id="star-2" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+                <svg id="star-3" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+                <svg id="star-4" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </label>
+        <h1 class="site-title">NeuroCalm</h1>
+        <!-- Profile Picture and Name -->
+        <div class="profile-pic" id="profilePic">
+            <!-- Use dynamic user data passed from server (EJS tags) -->
+            <img src="<%= user.profile_pic || 'profile-pic.jpg' %>" alt="Profile" width="40" height="40" style="border-radius: 50%; cursor: pointer;">
+            <span><%= user.firstname %> <%= user.lastname %></span> <!-- Full name -->
+        </div>
+    </header>
+
+    <main class="centered">
+      <div class="wrapper">
+        <!-- Evaluation Section -->
+        <div class="container evaluation-container" id="eval">
+            <h2>Evaluate</h2>
+            <p>There are two types of evaluations:</p>
+            <p><h3>1. Short Test</h3> it takes around <em>7 minutes</em> to complete</p>
+            <p><h3>2. Full Test</h3> it takes around <em>15 minutes</em> to complete</p>
+            <p><strong><em>Click on the evaluate button to start evaluation</em></strong></p><br>
+            <button class="form-button" id="evaluateButton">Evaluate</button>
+        </div>
+
+        <!-- Exercises Section -->
+        <div class="container exercises-container" id="ex">
+            <h2>Exercises</h2>
+            <p>These are exercises you can do to improve your mental health</p>
+            <p><strong><em>Click on the exercise button to view the exercises</em></strong></p><br>
+            <a href="exercises.html" class="form-button" id="exerciseButton">Exercises</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Profile Popup -->
+    <div id="profilePopup" class="container popup glass-effect">
+        <ul>
+            <li><a href="details">Profile Details</a></li>
+            <li><a href="past-evaluation">Past Evaluation</a></li>
+            <li><a href="counsellors.html">Counsellor Near You</a></li>
+            <li><a href="index.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Evaluate Popup -->
+    <div id="evaluatePopup" class="container popup glass-effect">
+        <ul>
+            <li><a href="dass21-dep.html">Short Test</a></li>
+            <li><a href="dass42-dep.html">Long Test</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 NeuroCalm. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Toggle dark mode
+        const modeToggle = document.getElementById("input");
+        modeToggle.addEventListener("change", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+
+        // Function to toggle popup visibility
+        function togglePopup(popup) {
+            document.querySelectorAll('.popup').forEach(p => p.classList.remove('show'));
+            popup.classList.toggle('show');
+        }
+
+        // Profile picture click event
+        const profilePic = document.getElementById('profilePic');
+        const profilePopup = document.getElementById('profilePopup');
+        profilePic.addEventListener('click', (event) => {
+            event.stopPropagation();
+            togglePopup(profilePopup);
+            profilePopup.style.top = '60px';
+            profilePopup.style.right = '20px';
+        });
+
+        // Evaluate button click event
+        const evaluateButton = document.getElementById('evaluateButton');
+        const evaluatePopup = document.getElementById('evaluatePopup');
+        evaluateButton.addEventListener('click', (event) => {
+            event.stopPropagation();
+            togglePopup(evaluatePopup);
+            evaluatePopup.style.top = '60px';
+            evaluatePopup.style.left = '50%';
+            evaluatePopup.style.transform = 'translateX(-50%)';
+        });
+
+        // Close popups when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!profilePopup.contains(event.target) && event.target !== profilePic) {
+                profilePopup.classList.remove('show');
+            }
+            if (!evaluatePopup.contains(event.target) && event.target !== evaluateButton) {
+                evaluatePopup.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

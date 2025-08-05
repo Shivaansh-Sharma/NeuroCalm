@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="login.html" class="login-btn">Login</a>
+        <h1 class="site-title">NeuroCalm</h1>
+        <label class="switch">
+            <input id="input" type="checkbox"  />
+            <div class="slider round">
+              <div class="sun-moon">
+                <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+          
+                <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+                <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="50"></circle>
+                </svg>
+              </div>
+              <div class="stars">
+                <svg id="star-1" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+                <svg id="star-2" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+                <svg id="star-3" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+                <svg id="star-4" class="star" viewBox="0 0 20 20">
+                  <path
+                    d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          </label>
+    </header>
+
+    <div class="centered">
+        <div class="container" id="signup">
+            <h2 class="form-heading">Sign Up</h2>
+            <form id="signup-form" action="/signup" method="post">
+                <input type="text" id="firstname" name="firstname" class="form-input" placeholder="First Name" required>
+                <input type="text" id="lastname" name="lastname" class="form-input" placeholder="Last Name" required>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Email Address" required>
+                <input type="date" id="dob" name="dob" class="form-input" placeholder="Date of Birth" required>
+                <select id="region" name="region" class="form-input" required>
+                    <option value="" disabled selected>Select your Region</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                    <option value="Chandigarh">Chandigarh</option>
+                    <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Puducherry">Puducherry</option>
+                    <option value="Ladakh">Ladakh</option>
+                    <option value="Lakshadweep">Lakshadweep</option>
+                    <option value=" Jammu & Kashmir">Jammu & Kashmir</option>
+                </select>
+                <input type="password" id="signupPassword" name="signupPassword" class="form-input" placeholder="Password" required>
+                <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" class="form-input" placeholder="Confirm Password" required>
+                <p>* By continuing you agree to our <u><a href="tnc.html">Terms and Conditions</a></u> and <u><a href="privacy-policy.html">Privacy Policy</a></u>  *</p>
+                <button type="button" class="form-button" id="send-otp-btn">Send OTP</button>
+                <input type="text" id="otp-input" class="form-input" placeholder="Enter OTP" style="display:none;" required>
+                <button type="submit" class="form-button" id="signup-submit" style="display:none;">Sign Up</button>
+            </form>
+            <div class="alert" id="signup-alert"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 NeuroCalm. All rights reserved.</p>
+    </footer>
+
+    <script>
+const modeToggle = document.getElementById("input");
+
+modeToggle.addEventListener("change", () => {
+    document.body.classList.toggle("dark-mode");
+    console.log("Dark mode toggled:", document.body.classList.contains("dark-mode"));
+});
+    
+     
+
+        const sendOtpBtn = document.getElementById("send-otp-btn");
+        const otpInput = document.getElementById("otp-input");
+        const signupSubmit = document.getElementById("signup-submit");
+        sendOtpBtn.addEventListener("click", async()=>{
+          const email = document.getElementById("email").value;
+          const response =  await fetch('/send-otp', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email})
+          });
+
+          const data = await response.json();
+          alert(data.message);
+          if(data.message==='OTP has been sent successfully!'){
+            otpInput.style.display = 'block';
+            signupSubmit.style.display = 'block';
+          }
+        })
+    
+        signupSubmit.addEventListener("click", async(event) => {
+            event.preventDefault(); // Prevent form submission
+            const enteredOtp = otpInput.value;
+            
+            
+    const firstname = document.getElementById("firstname").value;
+    const lastname = document.getElementById("lastname").value;
+    const email = document.getElementById("email").value;
+    const dob = document.getElementById("dob").value;
+    const region = document.getElementById("region").value;
+    const signupPassword = document.getElementById("signupPassword").value;
+    const confirmSignupPassword = document.getElementById("signupConfirmPassword").value;
+
+            //seding data to backend using fetch api
+            fetch ("/signup",
+            {
+                method: "post",
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+            key1: firstname,
+            key2: lastname,
+            key3: email,
+            key4: dob,
+            key5: region,
+            key6: signupPassword,
+            key7: confirmSignupPassword,
+            key8: enteredOtp
+        })
+            })
+            .then(response =>  response.json()) 
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href="/dashboard";
+            })
+            .catch(error => {
+                console.error('Error:', error); 
+            });
+
+        });
+    
+        //Prevent form submission on Enter key press
+        document.getElementById("signup-form").addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+            }
+        });
+
+    </script>
+</body>
+</html>

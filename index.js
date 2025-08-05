@@ -1,0 +1,610 @@
+import express from "express";
+import bodyParser from "body-parser";
+import pg from "pg";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+import session from "express-session";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+
+// for __dirname in ES Module
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+const app = express();
+const port = 3000;
+const saltRounds = 10;
+
+// PostgreSQL Database Connection
+const db = new pg.Client({
+    user: "postgres",
+    host: "localhost",
+    database: "neurocalm",
+    password: "bhangu123",  
+    port: 5432,
+});
+
+db.connect()
+    .then(() => console.log("Connected to PostgreSQL"))
+    .catch((err) => console.error("Database Connection Error", err.stack));
+
+// Middleware
+app.use(express.static("public")); // Serve static files
+app.use(express.json()); // Handle JSON data
+app.use(bodyParser.urlencoded({ extended: true })); // Handle form data
+app.use(session({
+    secret: "your-secret-key", // Change this to a strong secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false , maxAge: 86400000} // Set to true if using HTTPS
+}));
+
+// Set EJS as the templating engine
+app.set("view engine", "ejs");
+app.set("views", join(__dirname, "views"));
+
+// Home Route
+app.get("/", (req, res) => {
+    res.sendFile(join(__dirname, "public", "index.html"));
+});
+
+// Signup Page Route
+app.get("/signup", (req, res) => {
+    res.sendFile(join(__dirname, "public", "signup.html"));
+});
+
+// Login Page Route
+app.get("/login", (req, res) => {
+    res.sendFile(join(__dirname, "public", "login.html"));
+});
+
+
+// Dashboard Route 
+app.get("/dashboard", async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+    console.log("hi")
+    try {
+        const userId = req.session.user.id;
+        const result = await db.query('SELECT id, firstname, lastname, email, dob, region FROM users WHERE id = $1', [userId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).send('User not found');
+        }
+
+        const user = result.rows[0];
+        res.render('dashboard', { user });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+// User Profile Details Route
+app.get("/details", async (req, res) => {
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+
+    const userId = req.session.user.id; // User ID from session
+
+    try {
+        // Fetch user details from the database using the user ID from session
+        const result = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
+
+        if (result.rows.length === 0) {
+            console.log("No user found in the database for userId:", userId);
+            return res.status(404).send('User not found');
+        }
+
+        // Extract the user data
+        const user = result.rows[0];
+        console.log("User data retrieved from DB:", user); // Log user data for verification
+        
+        const dob_result = user.dob.toISOString().slice(0,10)
+        console.log(dob_result)
+        
+        // Render the user details page with the user data
+        res.render('details', { user:user,dob:dob_result }); // Ensure 'user' is passed to the EJS template
+    } catch (err) {
+        console.error("Error fetching user details:", err);
+        res.status(500).send('Server error');
+    }
+});
+// Update user details
+app.post('/user/update', async (req, res) => {
+    const { id } = req.params;
+    const { firstName, lastName, email, dob, region } = req.body;
+
+    try {
+        const result = await db.query(
+            'UPDATE users SET firstname = $1, lastname = $2, email = $3, dob = $4, region = $5 WHERE id = $6 RETURNING *',
+            [firstName, lastName, email, dob, region, id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ message: 'User details updated successfully', user: result.rows[0] });
+    } catch (error) {
+        console.error('Error updating user details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+
+// Handle Signup Form Submission
+app.post("/signup", async (req, res) => {
+    console.log("Received signup request!");
+    console.log("Request body:", req.body);
+
+    let firstname = req.body["key1"];
+    let lastname = req.body["key2"];
+    let email = req.body["key3"];
+    let dob = req.body["key4"];
+    let region = req.body["key5"];
+    let signupPassword = req.body["key6"];
+    let signupConfirmPassword = req.body["key7"];
+    let enteredOtp = req.body["key8"];
+    
+    //verifying otp
+    let generated_otp = req.session.otp;
+    if(!generated_otp && generated_otp !== enteredOtp){
+        return res.status(400).send("Incorrect OTP");
+    }
+
+    if (!firstname || !lastname || !email || !signupPassword) {
+        return res.status(400).send("Missing required fields!");
+    }
+
+    if(signupPassword !== signupConfirmPassword){
+        return res.status(400).send("Passwords do not match");
+    }
+    
+    console.log({firstname, lastname, email, dob, region, signupPassword, signupConfirmPassword})
+
+    // Encrypting password before storing
+    bcrypt.hash(signupPassword, saltRounds, async (err, hash_pass)=>{
+        if(err){
+            conosole.log("error hashing the password: ", err);
+        }else{
+            try {
+        const query = `
+            INSERT INTO users (firstname, lastname, email, dob, region, password)
+            VALUES ($1, $2, $3, $4, $5, $6)`;
+        const values = [firstname, lastname, email, dob, region, hash_pass];
+
+        await db.query(query, values);
+        const result  = await db.query('SELECT * FROM users WHERE email=$1', [req.session.email]);
+        console.log("User inserted:", result.rows[0]);
+
+        res.json({message: "Signup successful!"});
+        } catch (error) {
+            console.error("Database Insert Error", error);
+            res.status(500).send("Error signing up.");
+        }
+        }
+    })
+
+    // Insert user into database
+    
+});
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth:{
+        user: "neurocalm1@gmail.com",
+        pass: "scls wgsk owil wlgk"
+    }
+});
+
+app.post("/send-otp", async(req, res)=>{
+  const email = req.body.email;
+  console.log(email);
+  const otp = Math.floor(100000 + Math.random() * 900000); // generate OTP
+
+  // Save OTP to session
+  req.session.email = email;
+  req.session.otp = otp;
+  console.log("working before sending mail");
+
+
+  // Send the OTP to the email
+  try {await transporter.sendMail({
+    from: 'neurocalm1@gmail.com',
+    to: email,
+    subject: 'Your OTP Code',
+    text: `Your OTP is ${otp}`
+  });
+
+  console.log(`Sent OTP ${otp} to ${email}`);
+
+  res.json({message: 'OTP has been sent successfully!'});
+  }
+  catch(error){
+    console.error('Failed to send OTP', error);
+    res.send(500).json({message: 'Failed to send OTP'});
+  }
+})
+
+// Handle Login Form Submission
+app.post("/login", async (req, res) => {
+    console.log("Login request received with data:", req.body);
+    const { email, password } = req.body;
+
+    try {
+        const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+        console.log("Query result:", result.rows);
+
+        if (result.rows.length > 0) {
+            const user = result.rows[0];
+            console.log("User data from DB:", user);            
+            console.log("encrypted password: ", password);
+            console.log("user entered password: ", user.password)
+
+            // Matching the encrypted password with user entered password
+            bcrypt.compare(password, user.password, (err, same)=>{
+               if(err){
+                    console.log("Error Matching the encrypted password with entered password", err);
+               } else{
+                    if(same){
+                        req.session.user = user;  // Store user in session
+                        return res.redirect("/dashboard"); // Redirect to dashboard after successful login
+                    }else{
+                        return res.status(401).send("Invalid credentials");
+                    }
+               }
+            })
+
+        } else {
+            return res.status(404).send("User not found");
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error logging in");
+  }
+})
+
+
+// Route for page 1 (Depression)
+app.post('/submit-page1', async (req, res) => {
+    const answers  = req.body;
+    console.log(answers)
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+    const userId = req.session.user.id
+    if (!answers) {
+        return res.status(400).send('No answers provided');
+    }
+
+    // Calculate the score for page 1 (depression)
+    let depScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+
+    try {
+        // Check if the user already has an entry in the results table
+        let result = await db.query(
+            'SELECT * FROM results WHERE user_id = $1',
+            [userId]
+        );
+
+        let depInterpretation = getDepressionInterpretation(depScore);
+            // Insert a new entry for the user with the depression score for page 1
+            await db.query(
+                'INSERT INTO results (user_id, dep_score, anx_score, str_score, testtype,dep_interpretation ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+                [userId, depScore,-1,-1, 'Dass-21',depInterpretation ]
+                
+            );
+            const newUserId = result.rows[0].id;
+        
+
+        // Redirect to page 2 (Anxiety)
+        res.redirect(`/dass21-anx.html`);
+    } catch (error) {
+        console.error('Error saving page 1 results:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Route for page 2 (Anxiety)
+app.post('/submit-page2', async (req, res) => {
+    const  answers  = req.body;
+    console.log(answers)
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+    const userId = req.session.user.id
+    if (!answers) {
+        return res.status(400).send('No answers provided');
+    }
+
+    // Calculate the score for page 2 (anxiety)
+    let anxScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+
+    try {
+        // Check if the user already has an entry in the results table
+        let result = await db.query(
+            'SELECT * FROM results WHERE user_id = $1',
+            [userId]
+        );
+        let anxInterpretation = getAnxietyInterpretation(anxScore);
+        if (result.rows.length > 0) {
+            // Update the existing entry with the anxiety score for page 2
+            const newUserId = req.session.newUserId;
+            await db.query(
+                'UPDATE results SET anx_score = $1, anx_interpretation = $2 WHERE id = $3',
+                [anxScore,anxInterpretation, newUserId]
+            );
+        } 
+
+        // Redirect to page 3 (Stress)
+        res.redirect(`/dass21-str.html`);
+    } catch (error) {
+        console.error('Error saving page 2 results:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Route for page 3 (Stress)
+app.post('/submit-page3', async (req, res) => {
+    const  answers  = req.body;
+    console.log(answers)
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+    const userId = req.session.user.id
+    if (!answers) {
+        return res.status(400).send('No answers provided');
+    }
+
+    // Calculate the score for page 3 (stress)
+    let strScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+    
+    console.log(strScore)
+    try {
+        // Check if the user already has an entry in the results table
+        let result = await db.query(
+            'SELECT * FROM results WHERE user_id = $1',
+            [userId]
+        );
+        let strInterpretation = getStressInterpretation(strScore);
+        if (result.rows.length > 0) {
+            // Update the existing entry with the stress score for page 3
+            const newUserId = req.session.newUserId;
+            await db.query(
+                'UPDATE results SET str_score = $1, str_interpretation = $2 WHERE id = $3',
+                [strScore,strInterpretation,newUserId]
+            );
+        } 
+
+        // Redirect to the results page
+        res.redirect(`/results`);
+    } catch (error) {
+        console.error('Error saving page 3 results:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+// Route for page 1 (Depression-long)
+app.post('/submit-page11', async (req, res) => {
+    const answers  = req.body;
+    console.log(answers)
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+    const userId = req.session.user.id
+    if (!answers) {
+        return res.status(400).send('No answers provided');
+    }
+
+    // Calculate the score for page 1 (depression)
+    let depScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+
+    try {
+        // Check if the user already has an entry in the results table
+        let result = await db.query(
+            'SELECT * FROM results WHERE user_id = $1',
+            [userId]
+        );
+
+        let depInterpretation = getDepressionInterpretation(depScore);
+            // Insert a new entry for the user with the depression score for page 1
+            await db.query(
+                'INSERT INTO results (user_id, dep_score, anx_score, str_score, testtype,dep_interpretation ) VALUES ($1, $2, $3, $4, $5, $6)',
+                [userId, depScore,-1,-1, 'Dass-42',depInterpretation]
+            );
+            const newUserId = result.rows[0].id;
+            req.session.newUserId = newUserId;
+
+        // Redirect to page 2 (Anxiety-long)
+        res.redirect(`/dass42-anx.html`);
+    } catch (error) {
+        console.error('Error saving page 1 results:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+// Route for page 2 (Anxiety-long)
+app.post('/submit-page22', async (req, res) => {
+    const  answers  = req.body;
+    console.log(answers)
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+    const userId = req.session.user.id
+    if (!answers) {
+        return res.status(400).send('No answers provided');
+    }
+
+    // Calculate the score for page 2 (anxiety)
+    let anxScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+
+    try {
+        // Check if the user already has an entry in the results table
+        let result = await db.query(
+            'SELECT * FROM results WHERE user_id = $1',
+            [userId]
+        );
+        let anxInterpretation = getAnxietyInterpretation(anxScore);
+        if (result.rows.length > 0) {
+            // Update the existing entry with the anxiety score for page 2
+            const newUserId = req.session.newUserId;
+            await db.query(
+                'UPDATE results SET anx_score = $1, anx_interpretation = $2 WHERE id = $3',
+                [anxScore,anxInterpretation, newUserIdid]
+            );
+        } 
+
+        // Redirect to page 3 (Stress)
+        res.redirect(`/dass42-str.html`);
+    } catch (error) {
+        console.error('Error saving page 2 results:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+// Route for page 3 (Stress-Long)
+app.post('/submit-page33', async (req, res) => {
+    const  answers  = req.body;
+    console.log(answers)
+    // Check if user is logged in
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect to login if user is not logged in
+    }
+    const userId = req.session.user.id
+    if (!answers) {
+        return res.status(400).send('No answers provided');
+    }
+
+    // Calculate the score for page 3 (stress)
+    let strScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
+    
+    console.log(strScore)
+    
+    try {
+        // Check if the user already has an entry in the results table
+        let result = await db.query(
+            'SELECT * FROM results WHERE user_id = $1',
+            [userId]
+        );
+        let strInterpretation = getStressInterpretation(strScore);
+        if (result.rows.length > 0) {
+            // Update the existing entry with the stress score for page 3
+            const newUserId = req.session.newUserId;
+            await db.query(
+                'UPDATE results SET str_score = $1, str_interpretation = $2 WHERE id = $3',
+                [strScore,strInterpretation, newUserIdid]
+            );
+        } 
+
+        // Redirect to the results page
+        res.redirect(`/results`);
+    } catch (error) {
+        console.error('Error saving page 3 results:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+// Route to display the results
+app.get('/results', async (req, res) => {
+    const userId = req.session.user.id;  // Access userId from the session
+    console.log('User ID from session:', userId);
+
+    if (!userId) {
+        return res.status(401).send('User not logged in');  // Handle case where user is not logged in
+    }
+
+    try {
+        let result = await db.query('SELECT * FROM results WHERE user_id = $1', [userId]);
+        console.log('Query result:', result.rows);
+
+        if (result.rows.length > 0) {
+            const {anx_score, dep_score, str_score } = result.rows[0];
+            const depInterpretation = getDepressionInterpretation(dep_score);
+            const anxInterpretation = getAnxietyInterpretation(anx_score);
+            const strInterpretation = getStressInterpretation(str_score);
+            const testType = 'DASS-21';  // Example test type
+            // const result1 = await db.query(
+            //     'UPDATE results SET (dep_interpretation, anx_interpretation, str_interpretation)=($2, $3, $4) where user_id = $1',
+            //     [userId, depInterpretation, anxInterpretation, strInterpretation]
+            // );
+            res.render('results', {
+                anx_score,
+                dep_score,
+                str_score,
+                depInterpretation,
+                anxInterpretation,
+                strInterpretation,
+                testType
+            });
+        } else {
+            res.status(404).send('User results not found');
+        }
+    } catch (error) {
+        console.error('Error retrieving results:', error);
+        res.status(500).send('Internal Server Error');
+    }
+    
+});
+
+
+function getDepressionInterpretation(score) {
+    if (score < 9) return "Normal";
+    else if (score < 13) return "Mild";
+    else if (score < 20) return "Moderate";
+    else if (score < 27) return "Severe";
+    else return "Extremely Severe";
+}
+
+function getAnxietyInterpretation(score) {
+    if (score < 7) return "Normal";
+    else if (score < 9) return "Mild";
+    else if (score < 14) return "Moderate";
+    else if (score < 19) return "Severe";
+    else return "Extremely Severe";
+}
+
+function getStressInterpretation(score) {
+    if (score < 14) return "Normal";
+    else if (score < 18) return "Mild";
+    else if (score < 25) return "Moderate";
+    else if (score < 33) return "Severe";
+    else return "Extremely Severe";
+}
+
+
+// Route to render past evaluations page
+app.get('/past-evaluation', async (req, res) => {
+    const userId = req.session.user.id;  // Access userId from the session
+    console.log('User ID from session:', userId);
+
+    if (!userId) {
+        return res.status(401).send('User not logged in');  // Handle case where user is not logged in
+    }
+
+    try {
+        // Query to fetch evaluations for the given user from the database
+        const result = await db.query(
+            'SELECT * FROM results WHERE user_id = $1 ORDER BY id DESC',
+
+            [userId]
+        );
+
+        const evaluations = result.rows;  // Store the evaluations returned from the database
+
+        // Render the results page with evaluations data
+        res.render('past-evaluation', { evaluations });
+    } catch (error) {
+        console.error('Error fetching evaluations:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Start Server
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
