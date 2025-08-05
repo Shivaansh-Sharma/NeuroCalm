@@ -11,16 +11,15 @@ import bcrypt from "bcrypt";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const saltRounds = 10;
 
 // PostgreSQL Database Connection
 const db = new pg.Client({
-    user: "postgres",
-    host: "localhost",
-    database: "neurocalm",
-    password: "bhangu123",  
-    port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 db.connect()
@@ -31,12 +30,17 @@ db.connect()
 app.use(express.static("public")); // Serve static files
 app.use(express.json()); // Handle JSON data
 app.use(bodyParser.urlencoded({ extended: true })); // Handle form data
+
 app.use(session({
-    secret: "your-secret-key", // Change this to a strong secret key
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false , maxAge: 86400000} // Set to true if using HTTPS
+  secret: "your-secret-key", // Change this in production
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: process.env.NODE_ENV === "production", // Secure in production only
+    maxAge: 86400000
+  }
 }));
+
 
 // Set EJS as the templating engine
 app.set("view engine", "ejs");
@@ -194,11 +198,11 @@ app.post("/signup", async (req, res) => {
 });
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth:{
-        user: "neurocalm1@gmail.com",
-        pass: "scls wgsk owil wlgk"
-    }
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  }
 });
 
 app.post("/send-otp", async(req, res)=>{
