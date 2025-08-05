@@ -155,10 +155,11 @@ app.post("/signup", async (req, res) => {
     let enteredOtp = req.body["key8"];
     
     //verifying otp
-    let generated_otp = req.session.otp;
-    if(!generated_otp && generated_otp !== enteredOtp){
-        return res.status(400).send("Incorrect OTP");
-    }
+let generated_otp = req.session.otp;
+if (!generated_otp || generated_otp.toString() !== enteredOtp) {
+    return res.status(400).send("Incorrect OTP");
+}
+
 
     if (!firstname || !lastname || !email || !signupPassword) {
         return res.status(400).send("Missing required fields!");
