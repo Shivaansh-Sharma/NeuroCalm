@@ -15,10 +15,12 @@ body {
     min-height: 100vh;
     line-height: 1.6;
     overflow-y: auto;
+    overflow-x: hidden;
     padding-top: 80px;
 }
 
 /* Centered form containers */
+
 .centered, main.centered {
     display: flex;
     flex-direction: column;
@@ -27,6 +29,10 @@ body {
     padding: 10px;
     overflow: auto;
     margin-top: 40px;
+}
+
+main.centered{
+    flex:1;
 }
 
 main.centered section {
@@ -542,8 +548,9 @@ footer {
     font-size: 14px;
     border-radius: 15px 15px 0 0;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    bottom: 0;
+/*     position: fixed;
+    bottom: 0; */
+    margin-top: auto;
 }
 
 /* Ensure footer is not overlapping content */
