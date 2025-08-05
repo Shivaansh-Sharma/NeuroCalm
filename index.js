@@ -6,6 +6,9 @@ import { fileURLToPath } from "url";
 import session from "express-session";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
+import pgSession from "connect-pg-simple";
+
+const pgStore = pgSession(session);
 
 // for __dirname in ES Module
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -32,11 +35,12 @@ app.use(express.json()); // Handle JSON data
 app.use(bodyParser.urlencoded({ extended: true })); // Handle form data
 
 app.use(session({
-  secret: "your-secret-key", // Change this in production
+  store: new pgStore({ pool: db }),
+  secret: process.env.SESSION_SECRET || "your-secret-key",
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === "production", // Secure in production only
+    secure: process.env.NODE_ENV === "production",
     maxAge: 86400000
   }
 }));
@@ -231,7 +235,8 @@ app.post("/send-otp", async(req, res)=>{
   }
   catch(error){
     console.error('Failed to send OTP', error);
-    res.send(500).json({message: 'Failed to send OTP'});
+    res.status(500).json({ message: 'Failed to send OTP' });
+
   }
 })
 
@@ -533,7 +538,7 @@ app.get('/results', async (req, res) => {
             const depInterpretation = getDepressionInterpretation(dep_score);
             const anxInterpretation = getAnxietyInterpretation(anx_score);
             const strInterpretation = getStressInterpretation(str_score);
-            const testType = 'DASS-21';  // Example test type
+            const testType = result.rows[0].testtype || 'DASS-21';
             // const result1 = await db.query(
             //     'UPDATE results SET (dep_interpretation, anx_interpretation, str_interpretation)=($2, $3, $4) where user_id = $1',
             //     [userId, depInterpretation, anxInterpretation, strInterpretation]
@@ -609,6 +614,17 @@ app.get('/past-evaluation', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+//logout route
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+    }
+    res.redirect("/login");
+  });
+});
+
 
 // Start Server
 app.listen(port, () => {
