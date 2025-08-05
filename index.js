@@ -174,7 +174,7 @@ if (!generated_otp || generated_otp.toString() !== enteredOtp) {
     // Encrypting password before storing
     bcrypt.hash(signupPassword, saltRounds, async (err, hash_pass)=>{
         if(err){
-            conosole.log("error hashing the password: ", err);
+            console.log("error hashing the password: ", err);
         }else{
             try {
         const query = `
@@ -283,9 +283,10 @@ app.post('/submit-page1', async (req, res) => {
         return res.redirect("/login"); // Redirect to login if user is not logged in
     }
     const userId = req.session.user.id
-    if (!answers) {
-        return res.status(400).send('No answers provided');
-    }
+if (!answers || Object.keys(answers).length === 0) {
+    return res.status(400).send('No answers provided');
+}
+
 
     // Calculate the score for page 1 (depression)
     let depScore = Object.values(answers).map(Number).reduce((acc, val)=> acc+val, 0)
