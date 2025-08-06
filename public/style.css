@@ -1369,3 +1369,23 @@ th, td{
   gap: 12px;
 }
 
+/* Remove space between text and video */
+.exercise-content {
+  margin: 0;
+  padding: 0;
+}
+
+.exercise-content > * {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.exercise-content ul,
+.exercise-content li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.exercise-title {
+  margin-bottom: 8px;
+}
