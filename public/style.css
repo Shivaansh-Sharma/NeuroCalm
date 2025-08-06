@@ -1302,3 +1302,23 @@ th, td{
     font-size: 1.4em;
   }
 }
+
+
+/* Limit video player size */
+.video-player video,
+.video-player img {
+  width: 100%;
+  max-width: 600px; /* ✅ Adjust as needed */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .video-player video,
+  .video-player img {
+    max-width: 100%; /* Let it fit smaller screens */
+  }
+}
