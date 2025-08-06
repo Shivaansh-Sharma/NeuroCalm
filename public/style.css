@@ -1437,3 +1437,38 @@ th, td{
     width: 100%;
   }
 }
+
+/* Make each exercise block center-aligned and consistent */
+.exercise-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ✅ centers text + video */
+  text-align: center;
+  gap: 16px;
+  padding: 20px;
+  margin: 30px auto;
+  border-radius: 8px;
+  background-color: #fff;
+  max-width: 800px;
+}
+
+/* Ensure videos/images are centered and not oversized */
+.video-player video,
+.video-player img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: block;
+  margin: 0 auto;
+}
+
+/* Center text content */
+.exercise-content {
+  text-align: center;
+}
+
+.exercise-title {
+  font-size: 1.5em;
+  margin-bottom: 8px;
+}
