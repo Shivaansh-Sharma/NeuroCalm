@@ -1364,3 +1364,8 @@ th, td{
     max-width: 100%;
   }
 }
+
+.exercise-div {
+  gap: 12px;
+}
+
