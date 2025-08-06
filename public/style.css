@@ -1494,3 +1494,13 @@ th, td{
 .exercise-content li {
   margin-bottom: 6px;
 }
+
+
+/* Ensure consistent 1-line gap between text and video */
+.exercise-content {
+  margin-bottom: 12px; /* Adjust: 12px ≈ 1 line */
+}
+
+.video-player {
+  margin-top: 0;
+}
