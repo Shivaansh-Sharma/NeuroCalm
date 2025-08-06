@@ -508,7 +508,11 @@ app.get('/results', async (req, res) => {
     }
 
     try {
-        let result = await db.query('SELECT * FROM results WHERE user_id = $1', [userId]);
+        // let result = await db.query('SELECT * FROM results WHERE user_id = $1', [userId]);
+      let result = await db.query(
+  'SELECT * FROM results WHERE user_id = $1 ORDER BY id DESC LIMIT 1',
+  [userId]
+);
         console.log('Query result:', result.rows);
 
         if (result.rows.length > 0) {
