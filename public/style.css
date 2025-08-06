@@ -1322,3 +1322,45 @@ th, td{
     max-width: 100%; /* Let it fit smaller screens */
   }
 }
+
+
+/* Adjust exercise layout spacing */
+.exercise-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 24px; /* Adjust gap between text and video */
+  padding: 20px;
+  margin: 30px auto;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+/* Responsive stacking on smaller screens */
+@media (max-width: 768px) {
+  .exercise-div {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px; /* Smaller gap for mobile */
+  }
+}
+
+/* Limit video player size */
+.video-player video,
+.video-player img {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .video-player video,
+  .video-player img {
+    max-width: 100%;
+  }
+}
