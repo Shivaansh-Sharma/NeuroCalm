@@ -1389,3 +1389,51 @@ th, td{
 .exercise-title {
   margin-bottom: 8px;
 }
+
+
+/* Final clean fix for exercise layout */
+.exercise-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  margin: 30px auto;
+  max-width: 1000px;
+}
+
+/* Control width and remove excessive spacing */
+.exercise-content {
+  flex: 1 1 48%;
+  margin: 0;
+}
+
+.video-player {
+  flex: 1 1 48%;
+  margin: 0;
+}
+
+.exercise-content ul,
+.exercise-content li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Optional: title spacing */
+.exercise-title {
+  margin-bottom: 10px;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 768px) {
+  .exercise-div {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .exercise-content,
+  .video-player {
+    width: 100%;
+  }
+}
