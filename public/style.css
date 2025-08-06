@@ -1092,7 +1092,9 @@ table, th, td {
   border-collapse: collapse; /* Optional but recommended */
 }
 
-
+th, td{
+    padding: 8px 12px;
+}
 
 .dark-mode table,.dark-mode th, .dark-mode td {
   border: 1px solid white;
