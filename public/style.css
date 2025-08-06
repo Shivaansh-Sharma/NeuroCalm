@@ -1472,3 +1472,25 @@ th, td{
   font-size: 1.5em;
   margin-bottom: 8px;
 }
+
+/* Fix consistent spacing between text and video */
+.exercise-div {
+  gap: 24px; /* adjust as needed */
+}
+
+.exercise-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.video-player {
+  margin-top: 0; /* prevent default spacing */
+}
+
+.exercise-content ul {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.exercise-content li {
+  margin-bottom: 6px;
+}
