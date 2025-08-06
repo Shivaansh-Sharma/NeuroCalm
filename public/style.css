@@ -1504,3 +1504,21 @@ th, td{
 .video-player {
   margin-top: 0;
 }
+
+/* Responsive wrapper for wide tables */
+.result-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Optional: smaller font on very narrow screens */
+@media (max-width: 600px) {
+  .result-table {
+    font-size: 14px;
+  }
+
+  .result-table th,
+  .result-table td {
+    padding: 8px;
+  }
+}
