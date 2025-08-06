@@ -1233,3 +1233,37 @@ th, td{
 }
 /* END OF FIXES */
 
+/* Improve layout responsiveness for exercises */
+.exercise-div {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Stack content and video vertically on smaller screens */
+@media (max-width: 1024px) {
+  .exercise-div {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .exercise-content,
+  .video-player {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .exercise-content ul,
+  .exercise-content p,
+  .exercise-content span {
+    text-align: left;
+  }
+
+  .exercise-title {
+    font-size: 1.3em;
+    text-align: center;
+  }
+}
+
