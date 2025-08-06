@@ -1200,13 +1200,13 @@ th, td{
   max-width: 1600px;
 }
 
-.exercise-content {
+/* .exercise-content {
   margin-left: 0;
 }
 
 .video-player {
   margin-right: 0;
-}
+} */
 
 /* NEW MEDIA QUERIES FOR RESPONSIVENESS */
 
@@ -1267,3 +1267,38 @@ th, td{
   }
 }
 
+/* Fix layout when filter is applied or screen is small */
+.exercise-div {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.exercise-content,
+.video-player {
+  flex: 1 1 400px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .exercise-div {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .exercise-content ul,
+  .exercise-content p,
+  .exercise-content span {
+    text-align: left;
+  }
+
+  .exercise-title {
+    text-align: center;
+    font-size: 1.4em;
+  }
+}
