@@ -641,7 +641,7 @@ app.post("/send-otp", async (req, res) => {
   const email_exists = await db.query('SELECT * FROM users WHERE email=$1', [email]);
 
   if(email_exists.rowCount>0){
-    res.status(400).send('User already exists. Please try to login.');
+    res.status(400).alert('User already exists. Please try to login.');
   }else{
     try {
     await transporter.sendMail({
