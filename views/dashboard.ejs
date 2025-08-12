@@ -146,6 +146,19 @@ modeToggle.addEventListener("change", () => {
     }
 });
 
+window.addEventListener('pageshow', () => {
+    const theme = localStorage.getItem("theme");
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+        const toggle = document.getElementById("input");
+        if (toggle) toggle.checked = true;
+    } else {
+        document.body.classList.remove("dark-mode");
+        const toggle = document.getElementById("input");
+        if (toggle) toggle.checked = false;
+    }
+});
+
 
         // Function to toggle popup visibility
         function togglePopup(popup) {
