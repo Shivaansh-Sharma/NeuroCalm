@@ -231,6 +231,16 @@ modeToggle.addEventListener("change", () => {
     window.history.back();
 });
 
+      window.addEventListener('pageshow', () => {
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("input").checked = true;
+    } else {
+        document.body.classList.remove("dark-mode");
+        document.getElementById("input").checked = false;
+    }
+});
+
   </script>
 </body>
 </html>
