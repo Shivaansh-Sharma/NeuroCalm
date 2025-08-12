@@ -643,7 +643,7 @@ console.log(email_exists.rowCount);
 console.log(email);
   if(email_exists.rowCount>0){
     // Instead of .alert(), send a JSON response
-res.status(400).json({ alert: 'User already exists. Please try to login.' });
+res.json({message: "User already exists. Please try to login."});
 
   }else{
     try {
