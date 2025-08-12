@@ -1344,6 +1344,10 @@ th, td{
     align-items: center;
     gap: 16px; /* Smaller gap for mobile */
   }
+    .lbsp {
+    width: auto;
+}
+
 }
 
 /* Limit video player size */
@@ -1522,3 +1526,5 @@ th, td{
     padding: 8px;
   }
 }
+
+
