@@ -191,7 +191,7 @@ app.post("/signup", async (req, res) => {
     const email_exist = await db.query('SELECT email FROM users WHERE email=$1').values[email];
   
     if (email_exist){
-      res.send('User already exist. Kindly proceed to Login.');
+      res.alert('User already exist. Kindly proceed to Login.');
     }
     // ✅ 4. Encrypt password and insert into database
     bcrypt.hash(signupPassword, saltRounds, async (err, hashedPassword) => {
