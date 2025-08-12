@@ -116,10 +116,25 @@
 
     <script>
         // Toggle dark mode
-        const modeToggle = document.getElementById("input");
-        modeToggle.addEventListener("change", () => {
-            document.body.classList.toggle("dark-mode");
-        });
+const modeToggle = document.getElementById("input");
+
+// Apply saved mode on page load
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+    modeToggle.checked = true; // keep switch in sync
+}
+
+// Toggle and save mode
+modeToggle.addEventListener("change", () => {
+    if (modeToggle.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("theme", "dark");
+    } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("theme", "light");
+    }
+});
+
     </script>
 </body>
 </html>
