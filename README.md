@@ -14,8 +14,8 @@ NeuroCalm is a mental health platform designed to break the silence around psych
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Node.js, Express.js
-- **Frontend**: EJS, HTML, CSS, JavaScript   
+- **Backend**: Node.js, Express.js, EJS
+- **Frontend**: HTML, CSS, JavaScript   
 - **Database**: PostgreSQL 
 - **Database Hosting**: Neon
 - **Encryption**: BCrypt
@@ -57,7 +57,7 @@ GitHub: https://github.com/Shivaansh-Sharma
 **Harman Singh**  - Backend   
 GitHub: https://github.com/bhangu1335
 
-**Mehul Kala**  - User Authentication & Security   
+**Mehul Kala**  - User Authentication, Security & Database   
 GitHub: https://github.com/mehulkala
 
 **Feroz Ahmad**  - Research & File Structure   
