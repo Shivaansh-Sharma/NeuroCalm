@@ -638,7 +638,12 @@ app.post("/send-otp", async (req, res) => {
   req.session.otp = otp;
   console.log("Generated OTP:", otp);
 
-  try {
+  const email_exists = await db.query('SELECT * FROM users WHERE email=$1', [email]);
+
+  if(email_exists.rowCount>0){
+    res.status(400).send('User already exists. Please try to login.');
+  }else{
+    try {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
@@ -660,6 +665,8 @@ Neurocalm`,
     console.error("❌ Failed to send OTP:", error);
     res.status(500).json({ message: "Failed to send OTP" });
   }
+  }
+  
 });
 
 
