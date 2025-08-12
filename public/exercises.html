@@ -192,55 +192,60 @@
   </div>
   
 
-  <script>
-            // Toggle dark mode
-const modeToggle = document.getElementById("input");
+<script>
+  // Get the toggle input once
+  const modeToggle = document.getElementById("input");
 
-// Apply saved mode on page load
-if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-mode");
-    modeToggle.checked = true; // keep switch in sync
-}
+  // Function to apply theme based on localStorage and sync toggle state
+  function applyTheme() {
+    const theme = localStorage.getItem("theme");
+    if (theme === "dark") {
+      document.body.classList.add("dark-mode");
+      if (modeToggle) modeToggle.checked = true;
+    } else {
+      document.body.classList.remove("dark-mode");
+      if (modeToggle) modeToggle.checked = false;
+    }
+  }
 
-// Toggle and save mode
-modeToggle.addEventListener("change", () => {
-    if (modeToggle.checked) {
+  // Apply saved mode on initial page load
+  applyTheme();
+
+  // Toggle and save mode when user changes toggle
+  if (modeToggle) {
+    modeToggle.addEventListener("change", () => {
+      if (modeToggle.checked) {
         document.body.classList.add("dark-mode");
         localStorage.setItem("theme", "dark");
-    } else {
+      } else {
         document.body.classList.remove("dark-mode");
         localStorage.setItem("theme", "light");
-    }
-});
+      }
+    });
+  }
 
+  // Re-apply theme on pageshow (includes back/forward cache navigation)
+  window.addEventListener('pageshow', () => {
+    applyTheme();
+  });
 
-        // Filter
-    function applyFilters() {
-      const selected = Array.from(document.querySelectorAll('#filter input:checked')).map(cb => cb.value);
-      const exercises = document.querySelectorAll('.exercise-div');
+  // Filter function (unchanged)
+  function applyFilters() {
+    const selected = Array.from(document.querySelectorAll('#filter input:checked')).map(cb => cb.value);
+    const exercises = document.querySelectorAll('.exercise-div');
 
-      exercises.forEach(ex => {
-        const tags = ex.dataset.tags.split(' ');
-        const show = selected.length === 0 || selected.some(tag => tags.includes(tag));
-        ex.style.display = show ? 'block' : 'none';
-      });
-    };
+    exercises.forEach(ex => {
+      const tags = ex.dataset.tags.split(' ');
+      const show = selected.length === 0 || selected.some(tag => tags.includes(tag));
+      ex.style.display = show ? 'block' : 'none';
+    });
+  }
 
-    //Back button
-    document.getElementById("back-button").addEventListener("click", function () {
+  // Back button
+  document.getElementById("back-button").addEventListener("click", function () {
     window.history.back();
-});
+  });
+</script>
 
-      window.addEventListener('pageshow', () => {
-    if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark-mode");
-        document.getElementById("input").checked = true;
-    } else {
-        document.body.classList.remove("dark-mode");
-        document.getElementById("input").checked = false;
-    }
-});
-
-  </script>
 </body>
 </html>
