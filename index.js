@@ -188,7 +188,11 @@ app.post("/signup", async (req, res) => {
         return res.status(400).send("Passwords do not match");
     }
 
+    const email_exist = await db.query('SELECT email WHERE email=$1').values[email];
   
+    if (email_exist){
+      res.send('User already exist. Kindly proceed to Login.');
+    }
     // ✅ 4. Encrypt password and insert into database
     bcrypt.hash(signupPassword, saltRounds, async (err, hashedPassword) => {
         if (err) {
