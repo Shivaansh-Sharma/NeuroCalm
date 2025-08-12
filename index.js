@@ -637,8 +637,16 @@ app.post("/send-otp", async (req, res) => {
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Your OTP Code",
-      text: `Your OTP is ${otp}`,
+      subject: "Your OTP Code for Neurocalm Signup",
+      text: `Dear User,
+
+Your One-Time Password (OTP) for Signup is: ${OTP}  
+
+Please keep this code confidential and do not share it with anyone.  
+If you did not request this, please ignore this message.  
+
+Thank you,  
+Neurocalm`,
     });
 
     console.log(`✅ OTP ${otp} sent to ${email}`);
