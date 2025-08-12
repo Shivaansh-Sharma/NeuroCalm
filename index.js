@@ -639,7 +639,8 @@ app.post("/send-otp", async (req, res) => {
   console.log("Generated OTP:", otp);
 
   const email_exists = await db.query('SELECT * FROM users WHERE email=$1', [email]);
-
+console.log(email_exists);
+console.log(email);
   if(email_exists.rowCount>0){
     // Instead of .alert(), send a JSON response
 res.status(400).json({ alert: 'User already exists. Please try to login.' });
