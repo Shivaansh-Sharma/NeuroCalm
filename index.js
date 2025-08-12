@@ -170,7 +170,7 @@ app.post("/signup", async (req, res) => {
     const enteredOtp = req.body["key8"];
 
     console.log("Session OTP:", req.session.otp, "Entered OTP:", enteredOtp);
-
+    
   
     // ✅ 1. OTP verification
     const generated_otp = req.session.otp;
@@ -188,6 +188,7 @@ app.post("/signup", async (req, res) => {
         return res.status(400).send("Passwords do not match");
     }
 
+  
     // ✅ 4. Encrypt password and insert into database
     bcrypt.hash(signupPassword, saltRounds, async (err, hashedPassword) => {
         if (err) {
@@ -209,6 +210,11 @@ app.post("/signup", async (req, res) => {
             const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
             console.log("✅ User inserted:", result.rows[0]);
 
+             //Stores User Session (Going to dashboard directly)
+             if(!req.session.user){
+               const user = result.rows[0];
+               req.session.user = user; 
+             }
             res.json({ message: "Signup successful!" });
         } catch (error) {
             console.error("❌ Database insert error:", error);
