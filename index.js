@@ -675,7 +675,7 @@ Neurocalm`,
 app.post('/exercises', (req, res)=>{
   if(!req.session.user){res.redirect('/login');}
   res.redirect('/exercises.html');
-}
+});
 
 // Start Server
 app.listen(port, () => {
