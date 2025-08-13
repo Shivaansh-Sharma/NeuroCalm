@@ -30,6 +30,11 @@ db.connect()
     .then(() => console.log("Connected to PostgreSQL"))
     .catch((err) => console.error("Database Connection Error", err.stack));
 
+db.on('error', (err) => {
+  console.error('Unexpected error on PostgreSQL client', err);
+  // Optional: handle reconnection logic or process exit here
+});
+
 // Middleware
 app.use(express.static("public")); // Serve static files
 app.use(express.json()); // Handle JSON data
