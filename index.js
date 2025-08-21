@@ -694,6 +694,7 @@ app.post("/send-otp-forgot-password", async (req, res)=>{
 
   const otp = Math.floor(100000 + Math.random() * 900000);
   req.session.reset_otp = otp;
+  console.log(otp)
 
   try {
     await transporter.sendMail({
@@ -722,7 +723,9 @@ app.post("/verify-otp-reset", (req, res)=>{
   const email = req.body["key1"];
   const enteredOtp = req.body["key2"];
   const sentOtp = req.session.reset_otp;
-  
+
+  console.log("sent otp  ", sentOtp)
+  console.log("Enetered otp", enteredOtp)
   if(enteredOtp !== sentOtp){
     return res.json({message : "Incorrect OTP"});
   }
