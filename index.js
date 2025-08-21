@@ -688,7 +688,7 @@ app.post("/send-otp-forgot-password", async (req, res)=>{
   //checking if the account already exists
   const check_user = await db.query('SELECT * FROM users WHERE email=$1', [email]);
   if(check_user.rowCount==0){
-    res.message("User doesn't have an account");
+    res.json({message : "User doesn't have an account")});
     return;
   }
 
@@ -716,6 +716,18 @@ Neurocalm`,
     console.error("❌ Failed to send OTP:", error);
     res.status(500).json({ message: "Failed to send OTP" });
   }
+});
+
+app.post("/verify-otp", (req, res)=>{
+  const email = req.body["key1"];
+  const enteredOtp = req.body["key2"];
+  const sentOtp = req.session.reset_otp;
+  
+  if(enteredOtp !== sentOtp){
+    res.json({message : "Incorrect OTP"});
+  }
+
+  res.status(200).json({message : "OTP has been verified successfully!"});
 });
 // Start Server
 app.listen(port, () => {
