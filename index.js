@@ -733,11 +733,14 @@ app.post("/verify-otp-reset", (req, res)=>{
   return res.status(200).json({message : "OTP has been verified successfully!"});
 });
 
-// app.post("/reset-password", (req, res)=>{
-//   const email = req.body["email"];
-//   const hashed_password = 
-//   const result = await db.query("UPDATE ")
-// });
+app.post("/reset-password", async (req, res)=>{
+  const email = req.body["email"];
+  const password = req.body["password"];
+  const hashed_password = hash(password, saltRounds);
+  await db.query("UPDATE users SET password=$1 WHERE email=$2", [hashed_password, email]);
+  alert("Password updated successfully!");
+  res.redirect("/login");
+});
 
 // Start Server
 app.listen(port, () => {
