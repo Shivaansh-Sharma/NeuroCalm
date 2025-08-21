@@ -726,7 +726,7 @@ app.post("/verify-otp-reset", (req, res)=>{
 
   console.log("sent otp  ", sentOtp)
   console.log("Enetered otp", enteredOtp)
-  if(enteredOtp !== sentOtp){
+  if(enteredOtp != sentOtp){
     return res.json({message : "Incorrect OTP"});
   }
 
