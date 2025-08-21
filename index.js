@@ -688,7 +688,7 @@ app.post("/send-otp-forgot-password", async (req, res)=>{
   //checking if the account already exists
   const check_user = await db.query('SELECT * FROM users WHERE email=$1', [email]);
   if(check_user.rowCount==0){
-    res.json({message : "User doesn't have an account")});
+    res.json({message : "User doesn't have an account"});
     return;
   }
 
