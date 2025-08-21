@@ -683,7 +683,40 @@ app.post('/exercises', (req, res)=>{
 });
 
 
+app.post("/send-otp-forgot-password", async (req, res)=>{
+  const email = req.body.email;
+  //checking if the account already exists
+  const check_user = await db.query('SELECT * FROM users WHERE email=$1', [email]);
+  if(check_user.rowCount==0){
+    res.message("User doesn't have an account");
+    return;
+  }
 
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  req.session.reset_otp = otp;
+
+  try {
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Your OTP Code for Reset Password of Neurocalm Account",
+      text: `Dear User,
+
+Your One-Time Password (OTP) for Reset Password is: ${otp}
+
+Please keep this code confidential and do not share it with anyone.
+If you did not request this, please ignore this message.
+
+Thank you,
+Neurocalm`,
+    });
+    
+    res.json({ message: "OTP has been sent successfully!" });
+  }catch(error){
+    console.error("❌ Failed to send OTP:", error);
+    res.status(500).json({ message: "Failed to send OTP" });
+  }
+});
 // Start Server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
