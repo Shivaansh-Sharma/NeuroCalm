@@ -682,6 +682,12 @@ app.post('/exercises', (req, res)=>{
   res.redirect('/exercises.html');
 });
 
+pool.on('error', (err) => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1); // or try reconnecting
+});
+
+
 // Start Server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
