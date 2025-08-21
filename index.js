@@ -718,7 +718,7 @@ Neurocalm`,
   }
 });
 
-app.post("/verify-otp", (req, res)=>{
+app.post("/verify-otp-reset", (req, res)=>{
   const email = req.body["key1"];
   const enteredOtp = req.body["key2"];
   const sentOtp = req.session.reset_otp;
