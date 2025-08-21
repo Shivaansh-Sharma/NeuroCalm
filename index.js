@@ -732,6 +732,13 @@ app.post("/verify-otp-reset", (req, res)=>{
 
   return res.status(200).json({message : "OTP has been verified successfully!"});
 });
+
+// app.post("/reset-password", (req, res)=>{
+//   const email = req.body["email"];
+//   const hashed_password = 
+//   const result = await db.query("UPDATE ")
+// });
+
 // Start Server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
