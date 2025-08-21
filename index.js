@@ -724,10 +724,10 @@ app.post("/verify-otp-reset", (req, res)=>{
   const sentOtp = req.session.reset_otp;
   
   if(enteredOtp !== sentOtp){
-    res.json({message : "Incorrect OTP"});
+    return res.json({message : "Incorrect OTP"});
   }
 
-  res.status(200).json({message : "OTP has been verified successfully!"});
+  return res.status(200).json({message : "OTP has been verified successfully!"});
 });
 // Start Server
 app.listen(port, () => {
