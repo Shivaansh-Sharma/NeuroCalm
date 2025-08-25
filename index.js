@@ -161,8 +161,6 @@ app.post('/user/update', async (req, res) => {
 
 // Handle Signup Form Submission
 app.post("/signup", async (req, res) => {
-    console.log("✅ Received signup request!");
-    console.log("Request body:", req.body);
 
     // Extract values from JSON body (keys from frontend)
     const firstname = req.body["key1"];
@@ -173,8 +171,6 @@ app.post("/signup", async (req, res) => {
     const signupPassword = req.body["key6"];
     const signupConfirmPassword = req.body["key7"];
     const enteredOtp = req.body["key8"];
-
-    console.log("Session OTP:", req.session.otp, "Entered OTP:", enteredOtp);
     
   
     // ✅ 1. OTP verification
@@ -235,7 +231,6 @@ app.post("/signup", async (req, res) => {
 
 // Handle Login Form Submission
 app.post("/login", async (req, res) => {
-    console.log("Login request received with data:", req.body);
     const { email, password } = req.body;
 
     try {
@@ -244,9 +239,6 @@ app.post("/login", async (req, res) => {
 
         if (result.rows.length > 0) {
             const user = result.rows[0];
-            console.log("User data from DB:", user);            
-            console.log("encrypted password: ", password);
-            console.log("user entered password: ", user.password)
 
             // Matching the encrypted password with user entered password
             bcrypt.compare(password, user.password, (err, same)=>{
