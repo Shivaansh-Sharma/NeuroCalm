@@ -740,9 +740,6 @@ app.post("/reset-password", async (req, res)=>{
   const hashed_password = await bcrypt.hash(password, saltRounds);
   await db.query("UPDATE users SET password=$1 WHERE email=$2", [hashed_password, email]);
   res.json({ success: true, message: "Password updated successfully!" });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Error updating password" });
-  }
   res.redirect("/login");
 });
 
