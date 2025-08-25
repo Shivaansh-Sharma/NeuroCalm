@@ -736,7 +736,7 @@ app.post("/verify-otp-reset", (req, res)=>{
 app.post("/reset-password", async (req, res)=>{
   const email = req.body["email"];
   const password = req.body["password"];
-  const hashed_password = hash(password, saltRounds);
+  const hashed_password = bcrypt.hash(password, saltRounds);
   await db.query("UPDATE users SET password=$1 WHERE email=$2", [hashed_password, email]);
   alert("Password updated successfully!");
   res.redirect("/login");
