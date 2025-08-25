@@ -737,7 +737,6 @@ app.post("/reset-password", async (req, res)=>{
   try{
     const email = req.body["email"];
     const password = req.body["password"];
-    console.log(password);
     const hashed_password = await bcrypt.hash(password, saltRounds);
     await db.query("UPDATE users SET password=$1 WHERE email=$2", [hashed_password, email]);
     res.redirect("/login");
