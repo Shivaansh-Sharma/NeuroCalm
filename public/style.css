@@ -1544,3 +1544,10 @@ th, td{
   padding: 0;                   /* remove weird spacing */
 }
 
+#exercises .exercise-div[data-tags="stress anxiety"] .exercise-content ul {
+  margin-left: 0;
+  margin-right: auto;
+  padding-left: 20px;
+  text-align: left;
+  display: block;
+}
