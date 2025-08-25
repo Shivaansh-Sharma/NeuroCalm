@@ -1527,9 +1527,20 @@ th, td{
   }
 }
 
-#exercise .exercise-content {
-  text-align: left;        /* align text left */
-  list-style-position: outside; /* keep bullets outside */
-  margin: 0;               /* reset weird centering margin */
-  padding-left: 20px;
+/* keep titles centered */
+#exercises .exercise-title {
+  text-align: center;
 }
+
+/* force all exercise content left */
+#exercises .exercise-content {
+  text-align: left;   /* overrides the parent centering */
+}
+
+/* make sure lists look normal */
+#exercises .exercise-content ul {
+  list-style-position: outside; /* bullets outside */
+  margin: 0 0 1em 1.5em;        /* left indent */
+  padding: 0;                   /* remove weird spacing */
+}
+
