@@ -1527,4 +1527,6 @@ th, td{
   }
 }
 
-
+#exercise li {
+  text-align: left;
+}
