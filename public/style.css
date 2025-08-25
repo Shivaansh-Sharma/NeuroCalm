@@ -1528,5 +1528,8 @@ th, td{
 }
 
 #exercise .exercise-content {
-  text-align: left;
+  text-align: left;        /* align text left */
+  list-style-position: outside; /* keep bullets outside */
+  margin: 0;               /* reset weird centering margin */
+  padding-left: 20px;
 }
